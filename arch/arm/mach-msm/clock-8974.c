@@ -723,6 +723,8 @@ static DEFINE_CLK_VOTER(pnoc_sdcc2_clk, &pnoc_clk.c, 0);
 static DEFINE_CLK_VOTER(pnoc_sdcc3_clk, &pnoc_clk.c, 0);
 static DEFINE_CLK_VOTER(pnoc_sdcc4_clk, &pnoc_clk.c, 0);
 
+static DEFINE_CLK_VOTER(pnoc_sps_clk, &pnoc_clk.c, 0);
+
 static struct clk_freq_tbl ftbl_gcc_usb30_master_clk[] = {
 	F(125000000,  gpll0,   1,   5,  24),
 	F_END
