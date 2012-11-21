@@ -1,5 +1,3 @@
-
-
 /* Qualcomm Secure Execution Environment Communicator (QSEECOM) driver
  *
  * Copyright (c) 2012, Code Aurora Forum. All rights reserved.
@@ -656,7 +654,6 @@ static int qseecom_load_app(struct qseecom_dev_handle *data, void __user *argp)
 	ret = qsee_vote_for_clock(CLK_SFPB);
 	if (ret)
 		pr_warning("Unable to vote for SFPB clock");
-
 	req.qsee_cmd_id = QSEOS_APP_LOOKUP_COMMAND;
 	memcpy(req.app_name, load_img_req.img_name, MAX_APP_NAME_SIZE);
 
