@@ -193,12 +193,6 @@ static DEFINE_MUTEX(next_port_id_lock);
 static struct workqueue_struct *msm_ipc_router_workqueue;
 
 enum {
-	CLIENT_PORT,
-	SERVER_PORT,
-	CONTROL_PORT,
-};
-
-enum {
 	DOWN,
 	UP,
 };
@@ -2159,6 +2153,11 @@ int msm_ipc_router_close_port(struct msm_ipc_port *port_ptr)
 		mutex_lock(&control_ports_lock);
 		list_del(&port_ptr->list);
 		mutex_unlock(&control_ports_lock);
+	} else if (port_ptr->type == IRSC_PORT) {
+		mutex_lock(&local_ports_lock);
+		list_del(&port_ptr->list);
+		mutex_unlock(&local_ports_lock);
+		signal_irsc_completion();
 	}
 
 	mutex_lock(&port_ptr->port_rx_q_lock);
