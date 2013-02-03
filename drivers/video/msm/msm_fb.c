@@ -3700,7 +3700,11 @@ static int msmfb_handle_pp_ioctl(struct msm_fb_data_type *mfd,
 static int msmfb_handle_buf_sync_ioctl(struct msm_fb_data_type *mfd,
 						struct mdp_buf_sync *buf_sync)
 {
+<<<<<<< HEAD
 	int i, ret = 0;
+=======
+	int i, fence_cnt = 0, ret = 0;
+>>>>>>> 30dfaf7... msm: display: reduce timeline to 1 for smart panel
 	u32 threshold;
 	int acq_fen_fd[MDP_MAX_FENCE_FD];
 	struct sync_fence *fence;
@@ -3736,8 +3740,13 @@ static int msmfb_handle_buf_sync_ioctl(struct msm_fb_data_type *mfd,
 	if (buf_sync->flags & MDP_BUF_SYNC_FLAG_WAIT) {
 		msm_fb_wait_for_fence(mfd);
 	}
+	if ((mfd->panel.type == MIPI_CMD_PANEL) ||
+		(mfd->panel.type == WRITEBACK_PANEL))
+		threshold = 1;
+	else
+		threshold = 2;
 	mfd->cur_rel_sync_pt = sw_sync_pt_create(mfd->timeline,
-			mfd->timeline_value + 2);
+			mfd->timeline_value + threshold);
 	if (mfd->cur_rel_sync_pt == NULL) {
 		pr_err("%s: cannot create sync point", __func__);
 		ret = -ENOMEM;
