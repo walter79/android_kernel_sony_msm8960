@@ -198,7 +198,7 @@ msg_build_failure:
 static int msm_ipc_router_extract_msg(struct msghdr *m,
 				      struct sk_buff_head *msg_head)
 {
-	struct sockaddr_msm_ipc *addr = (struct sockaddr_msm_ipc *)m->msg_name;
+	struct sockaddr_msm_ipc *addr;
 	struct rr_header *hdr;
 	struct sk_buff *temp;
 	union rr_control_msg *ctl_msg;
@@ -208,6 +208,7 @@ static int msm_ipc_router_extract_msg(struct msghdr *m,
 		pr_err("%s: Invalid pointers passed\n", __func__);
 		return -EINVAL;
 	}
+	addr = (struct sockaddr_msm_ipc *)m->msg_name;
 
 	temp = skb_peek(msg_head);
 	hdr = (struct rr_header *)(temp->data);
