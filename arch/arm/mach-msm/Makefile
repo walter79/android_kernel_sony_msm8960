@@ -416,6 +416,8 @@ endif
 
 obj-y += power_debug.o
 
+obj-$(CONFIG_ARCH_RANDOM) += early_random.o
+
 obj-$(CONFIG_RAMDUMP_TAGS) += board-rdtags.o
 CFLAGS_board-rdtags.o	:= \
 	-D"INFO_PRODUCT=\"$(if $(TARGET_PRODUCT),$(TARGET_PRODUCT),unknown)\"" \
