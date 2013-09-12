@@ -1175,6 +1175,7 @@ static int msm_audrx_init(struct snd_soc_pcm_runtime *rtd)
 	int err, ret;
 #ifndef CONFIG_SWITCH_FSA8008
 	uint32_t revision;
+#endif
 	struct snd_soc_codec *codec = rtd->codec;
 	struct snd_soc_dapm_context *dapm = &codec->dapm;
 	struct snd_soc_dai *cpu_dai = rtd->cpu_dai;
