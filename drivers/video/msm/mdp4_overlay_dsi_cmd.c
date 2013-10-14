@@ -58,7 +58,6 @@ static struct vsycn_ctrl {
 	uint32 rdptr_intr_tot;
 	uint32 rdptr_sirq_tot;
 	atomic_t suspend;
-	atomic_t vsync_resume;
 	int wait_vsync_cnt;
 	int blt_change;
 	int blt_free;
@@ -442,9 +441,6 @@ void mdp4_dsi_cmd_vsync_ctrl(struct fb_info *info, int enable)
 		spin_unlock_irqrestore(&vctrl->spin_lock, flags);
 	}
 	mutex_unlock(&vctrl->update_lock);
-
-	if (vctrl->vsync_enabled &&  atomic_read(&vctrl->suspend) == 0)
-		atomic_set(&vctrl->vsync_resume, 1);
 }
 
 void mdp4_dsi_cmd_wait4vsync(int cndx)
@@ -661,10 +657,6 @@ ssize_t mdp4_dsi_cmd_show_event(struct device *dev,
 
 	cndx = 0;
 	vctrl = &vsync_ctrl_db[0];
-
-	if (atomic_read(&vctrl->suspend) > 0 ||
-		atomic_read(&vctrl->vsync_resume) == 0)
-		return 0;
 
 	spin_lock_irqsave(&vctrl->spin_lock, flags);
 	if (vctrl->wait_vsync_cnt == 0)
@@ -1038,7 +1030,6 @@ int mdp4_dsi_cmd_off(struct platform_device *pdev)
 	}
 
 	atomic_set(&vctrl->suspend, 1);
-	atomic_set(&vctrl->vsync_resume, 0);
 
 	complete_all(&vctrl->vsync_comp);
 
