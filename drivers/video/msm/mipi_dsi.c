@@ -308,8 +308,6 @@ static int mipi_dsi_on(struct platform_device *pdev)
 		mipi_dsi_unprepare_clocks();
 	}
 
-	mdp4_overlay_dsi_state_set(ST_DSI_RESUME);
-
 	if (mdp_rev >= MDP_REV_41)
 		mutex_unlock(&mfd->dma->ov_mutex);
 	else
