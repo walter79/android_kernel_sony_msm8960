@@ -49,6 +49,7 @@ else
 	obj-$(CONFIG_SMP) += platsmp.o
 endif
 obj-$(CONFIG_HOTPLUG_CPU) += hotplug.o
+obj-$(CONFIG_INTELLI_PLUG) += intelli_plug.o
 
 ifdef CONFIG_ARCH_MSM8960
 	obj-$(CONFIG_PM8921_MIC_BIAS) += pm8921-mic_bias.o
