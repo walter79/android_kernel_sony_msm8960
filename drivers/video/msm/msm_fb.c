@@ -590,7 +590,7 @@ static int msm_fb_suspend(struct platform_device *pdev, pm_message_t state)
 #define msm_fb_suspend NULL
 #endif
 
-#if defined(CONFIG_MACH_BLUE_HAYABUSA) || defined(CONFIG_MACH_BLUE_MINT)
+#if defined(CONFIG_MACH_BLUE_HAYABUSA) || defined(CONFIG_MACH_BLUE_MINT) || defined(CONFIG_MACH_BLUE_TSUBASA)
 static void msm_fb_shutdown(struct platform_device *pdev)
 {
 	struct msm_fb_data_type *mfd;
