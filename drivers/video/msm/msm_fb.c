@@ -383,17 +383,6 @@ static void msm_fb_remove_sysfs(struct platform_device *pdev)
 
 static void bl_workqueue_handler(struct work_struct *work);
 
-static void msm_fb_shutdown(struct platform_device *pdev)
-{
-       struct msm_fb_data_type *mfd = platform_get_drvdata(pdev);
-       if (IS_ERR_OR_NULL(mfd)) {
-               pr_err("MFD is Null");
-               return;
-       }
-       lock_fb_info(mfd->fbi);
-       msm_fb_release_all(mfd->fbi, true);
-       unlock_fb_info(mfd->fbi);
-}
 static int msm_fb_probe(struct platform_device *pdev)
 {
 	struct msm_fb_data_type *mfd;
@@ -601,6 +590,7 @@ static int msm_fb_suspend(struct platform_device *pdev, pm_message_t state)
 #define msm_fb_suspend NULL
 #endif
 
+#if defined(CONFIG_MACH_BLUE_HAYABUSA) || defined(CONFIG_MACH_BLUE_MINT)
 static void msm_fb_shutdown(struct platform_device *pdev)
 {
 	struct msm_fb_data_type *mfd;
@@ -622,6 +612,19 @@ static void msm_fb_shutdown(struct platform_device *pdev)
 		mdp_pipe_ctrl(MDP_MASTER_BLOCK, MDP_BLOCK_POWER_OFF, FALSE);
 	}
 }
+#else
+static void msm_fb_shutdown(struct platform_device *pdev)
+{
+       struct msm_fb_data_type *mfd = platform_get_drvdata(pdev);
+       if (IS_ERR_OR_NULL(mfd)) {
+               pr_err("MFD is Null");
+               return;
+       }
+       lock_fb_info(mfd->fbi);
+       msm_fb_release_all(mfd->fbi, true);
+       unlock_fb_info(mfd->fbi);
+}
+#endif
 
 static int msm_fb_suspend_sub(struct msm_fb_data_type *mfd)
 {
